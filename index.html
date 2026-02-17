@@ -16,7 +16,7 @@
     <div class="product">
 
         <div class="product-image">
-            <img :alt="altText" :src="image"/>
+            <img :alt="altTexr" :src="image"/>
         </div>
 
         <div class="product-info">
@@ -26,21 +26,42 @@
             <p v-if="inventory > 10">In Stock</p>
             <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
             <p v-else>Out of Stock</p>
+            <p v-if="inventory > 10, inStock">In Stock</p>
+            <p v-else-if="inventory <= 10 && inventory > 0, inStock">Almost sold out!</p>
+            <p v-else :class="{OutOfStock: !inStock}">Out of Stock</p>
             <span v-show="onSale">On Sale!</span>
             <ul>
                 <li v-for="detail in details">{{detail}}</li>
             </ul>
             <div v-for="variant in variants" :key="variant.variantId">
-                <p>{{ variant.variantColor }}</p>
+                <p @mouseover="updateProduct(variant.variantImage)">
+                <div class="color-box"
+                     v-for="variant in variants"
+                     :key="variant.variantId"
+                     :style="{ backgroundColor:variant.variantColor }"
+                     @mouseover="updateProduct(variant.variantImage)" >
+                    <p >
+                        {{ variant.variantColor }}
+                    </p>
+                </div>
+                @@ -41,13 +45,19 @@
+                <div class="cart">
+                    <p>Cart({{ cart }})</p>
+                </div>
+                <button v-on:click="addToCart">Add to cart</button>
+                <button v-on:click="deleteOnCart" v-if="cart < 0">Delete on cart</button>
+                <button
+                        v-on:click="addToCart"
+                        :disabled="!inStock"
+                        :class="{ disabledButton: !inStock }"
+                >
+                    Add to cart
+                </button>
+                <button v-on:click="deleteOnCart" v-if="cart > 0">Delete on cart</button>
             </div>
-            <ul>
-                <li v-for="size in sizes">{{size}}</li>
-            </ul>
 
         </div>
-
     </div>
-</div>
 
 
 </div>
