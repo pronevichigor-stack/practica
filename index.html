@@ -11,49 +11,47 @@
     <title>Product App</title>
 </head>
 <body>
-<div id="app">
-
-    <div class="product">
-
-        <div class="product-image">
-            <img :alt="altTexr" :src="image"/>
-        </div>
-
-        <div class="product-info">
-            <h1>{{ product }}</h1>
-            <p>{{ description }}</p>
-            <a :href="link">More products like this.</a>
-            <p v-if="inventory > 10, inStock">In Stock</p>
-            <p v-else-if="inventory <= 10 && inventory > 0, inStock">Almost sold out!</p>
-            <p v-else :class="{OutOfStock: !inStock}">Out of Stock</p>
-            <span v-show="onSale">On Sale!</span>
-            <ul>
-                <li v-for="detail in details">{{detail}}</li>
-            </ul>
-                <div class="color-box"
-                     v-for="variant in variants"
-                     :key="variant.variantId"
-                     :style="{ backgroundColor:variant.variantColor }"
-                     @mouseover="updateProduct(variant.variantImage)" >
-                    <p >
-                        {{ variant.variantColor }}
+    <div id="app">
+            <div class="product">
+                <div class="product-image">
+                    <img :alt="altText" :src="image"/>
+                </div>
+                <div class="product-info">
+                    <h1>{{ title }}</h1>
+                    <p>{{ description }}</p>
+                    <a :href="link">More products like this.</a>
+                    <p v-if="inventory > 10, inStock">In Stock</p>
+                    <p v-else-if="inventory <= 10 && inventory > 0, inStock">Almost sold out!</p>
+                    <p v-else
+                       :class="{OutOfStock: !inStock}"
+                    >
+                        Out of Stock
                     </p>
+                    <span v-show="onSale">On Sale!</span>
+                    <ul>
+                        <li v-for="detail in details">{{detail}}</li>
+                    </ul>
+                    <div class="color-box"
+                         v-for="(variant, index) in variants"
+                         :key="variant.variantId"
+                         :style="{ backgroundColor:variant.variantColor }"
+                         @mouseover="updateProduct(index)">
+                    </div>
+                    <ul>
+                        <li v-for="size in sizes">{{size}}</li>
+                    </ul>
+                    <div class="cart">
+                        <p>Cart({{ cart }})</p>
+                    </div>
+                    <button
+                            v-on:click="addToCart"
+                            :disabled="!inStock"
+                            :class="{ disabledButton: !inStock }"
+                    >
+                        Add to cart
+                    </button>
+                    <button v-on:click="deleteOnCart" v-if="cart > 0">Delete on cart</button>
                 </div>
-                <ul>
-                     <li v-for="size in sizes">{{size}}</li>
-                </ul>
-                <div class="cart">
-                    <p>Cart({{ cart }})</p>
-                </div>
-                <button
-                        v-on:click="addToCart"
-                        :disabled="!inStock"
-                        :class="{ disabledButton: !inStock }"
-                >
-                    Add to cart
-                </button>
-                <button v-on:click="deleteOnCart" v-if="cart > 0">Delete on cart</button>
-            </div>
 
         </div>
     </div>
