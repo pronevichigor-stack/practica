@@ -32,11 +32,15 @@ Vue.component('product-review', {
    </select>
  </p>
  <p>
-    <label for="rec"> «Would you recommend this product?»</label>
-    <p>yes</p>
-    <input id="rec" type="radio" value="Yes" v-model="recommended">
-    <p>no</p>
-    <input id="rec" type="radio" value="No" v-model="recommended">
+    <label>Would you recommend this product?</label>
+    <div class="recommend-container">
+        <label class="radio-label">
+            <input type="radio" value="Yes" v-model="recommended"> Yes
+        </label>
+        <label class="radio-label">
+            <input type="radio" value="No" v-model="recommended"> No
+        </label>
+    </div>
 </p>
 
  <p>
