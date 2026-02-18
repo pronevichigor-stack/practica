@@ -207,7 +207,7 @@ Vue.component('product', {
            >
                Add to cart
            </button>
-           <button v-on:click="removeFromCart" :disabled="!inStock" :class="{disabledButton: !inStock}">Remove from cart</button>
+           <button v-on:click="removeFromCart" :disabled="!inStock" :class="{disabledButton: !inStock}">Remove cart</button>
           
            <ul>
                 <li v-for="size in sizes">{{ size }}</li>
