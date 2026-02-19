@@ -31,7 +31,7 @@ Vue.component('product-review', {
      <option>1</option>
    </select>
  </p>
- <p>
+<p>
     <label>Would you recommend this product?</label>
     <div class="recommend-container">
         <label class="radio-label">
@@ -42,6 +42,7 @@ Vue.component('product-review', {
         </label>
     </div>
 </p>
+
 
  <p>
    <input type="submit" value="Submit"> 
@@ -60,6 +61,7 @@ Vue.component('product-review', {
     },
     methods: {
         onSubmit() {
+            this.errors= [];
             if (this.name && this.review && this.rating) {
                 let productReview = {
                     name: this.name,
@@ -123,9 +125,10 @@ Vue.component('product-tabs', {
             <p v-if="!reviews.length">There are no reviews yet.</p>
             <ul v-else>
                 <li v-for="review in reviews" class="review-item">
-                    <p><strong>{{ review.name }}</strong></p>
+                    <p><strong>Name: {{ review.name }}</strong></p>
                     <p>Rating: {{ review.rating }}/5</p>
-                    <p>{{ review.review }}</p>
+                    <p>Review: {{ review.review }}</p>
+                    <p>Recommend: {{ review.recommended}}</p>
                 </li>
             </ul>
         </div>
@@ -136,9 +139,10 @@ Vue.component('product-tabs', {
         <div v-show="selectedTab === 'Shipping'" class="tab-content">
             <h3>Shipping Information</h3>
             <div class="shipping-info">
-                <p><strong>Delivery Options:</strong></p>
+                <p>Delivery: </p>
                 <ul>
-                    <li>Standard Shipping (3-5 business days) - {{ shippingCost }}</li>
+                    <li>Usually Shipping - {{ shippingCost }}</li>
+                    <li>Fast Shipping - 5$</li>
                 </ul>
             </div>
         </div>
@@ -177,7 +181,7 @@ Vue.component('product', {
         }
     },
     template: `
-   <div class="product">
+    <div class="product">
     <div class="product-image">
            <img :src="image" :alt="altText"/>
        </div>
@@ -202,6 +206,10 @@ Vue.component('product', {
                    :style="{ backgroundColor:variant.variantColor }"
                    @mouseover="updateProduct(index)"
            ></div>
+           
+           <ul>
+                <li v-for="size in sizes">{{ size }}</li>
+           </ul>
           
 
            <button
@@ -212,12 +220,7 @@ Vue.component('product', {
                Add to cart
            </button>
            <button v-on:click="removeFromCart" :disabled="!inStock" :class="{disabledButton: !inStock}">Remove cart</button>
-          
-           <ul>
-                <li v-for="size in sizes">{{ size }}</li>
-           </ul>
-
-       
+           
        </div>
        <div>
        <product-tabs 
@@ -255,7 +258,7 @@ Vue.component('product', {
                 }
             ],
             sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
-            reviews:[]
+            reviews: []
         }
     },
     methods: {
@@ -297,7 +300,7 @@ Vue.component('product', {
             }
         }
     },
-    mounted(){
+    mounted() {
         eventBus.$on('review-submitted', productReview => {
             this.reviews.push(productReview);
         });
